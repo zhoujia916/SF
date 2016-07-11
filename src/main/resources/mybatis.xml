@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
+<configuration>
+    <!-- mybatis配置 -->
+    <settings>
+        <setting name="cacheEnabled" value="true"/>
+        <setting name="multipleResultSetsEnabled" value="true"/>
+        <setting name="useColumnLabel" value="true"/>
+        <setting name="useGeneratedKeys" value="true"/>
+        <setting name="autoMappingBehavior" value="PARTIAL"/>
+        <setting name="defaultExecutorType" value="SIMPLE"/>
+        <setting name="defaultStatementTimeout" value="30"/>
+        <setting name="safeRowBoundsEnabled" value="false"/>
+        <setting name="mapUnderscoreToCamelCase" value="false"/>
+        <setting name="localCacheScope" value="SESSION"/>
+        <setting name="jdbcTypeForNull" value="OTHER"/>
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <setting name="lazyLoadTriggerMethods" value="equals,clone,hashCode,toString"/>
+    </settings>
+
+    <typeAliases>
+        <typeAlias type="puzzle.sf.entity.SystemAuthority" alias="SystemAuthority" />
+        <typeAlias type="puzzle.sf.entity.SystemConfig" alias="SystemConfig" />
+        <typeAlias type="puzzle.sf.entity.SystemDept" alias="SystemDept" />
+        <typeAlias type="puzzle.sf.entity.SystemLog" alias="SystemLog" />
+        <typeAlias type="puzzle.sf.entity.SystemMenu" alias="SystemMenu" />
+        <typeAlias type="puzzle.sf.entity.SystemMenuAction" alias="SystemMenuAction" />
+        <typeAlias type="puzzle.sf.entity.SystemMsg" alias="SystemMsg" />
+        <typeAlias type="puzzle.sf.entity.SystemRole" alias="SystemRole" />
+        <typeAlias type="puzzle.sf.entity.SystemUser" alias="SystemUser" />
+        <typeAlias type="puzzle.sf.entity.SystemUserGroup" alias="SystemUserGroup" />
+        <typeAlias type="puzzle.sf.entity.SystemUserMap" alias="SystemUserMap" />
+
+
+
+        <typeAlias type="puzzle.sf.entity.FcaAd" alias="FcaAd"/>
+        <typeAlias type="puzzle.sf.entity.FcaAdPosition" alias="FcaAdPosition"/>
+        <typeAlias type="puzzle.sf.entity.FcaArticle" alias="FcaArticle" />
+        <typeAlias type="puzzle.sf.entity.FcaArticleCat" alias="FcaArticleCat" />
+        <typeAlias type="puzzle.sf.entity.FcaArticleTemplate" alias="FcaArticleTemplate" />
+        <typeAlias type="puzzle.sf.entity.FcaUser" alias="FcaUser" />
+    </typeAliases>
+
+    <!-- mybatis插件 -->
+    <plugins>
+        <!---->
+        <plugin interceptor="puzzle.sf.intercept.SqlInterceptor" />
+
+
+        <plugin interceptor="puzzle.sf.intercept.PageInterceptor">
+            <property name="dbType" value="mysql" />
+        </plugin>
+
+
+    </plugins>
+</configuration>
