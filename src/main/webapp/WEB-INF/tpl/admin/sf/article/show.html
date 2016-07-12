@@ -192,13 +192,6 @@
                 $("#title").focus();
                 return;
             }
-            var catId = $("#catId").val();
-            if(catId == "0"){
-                showTip("请选择分类");
-                $("#catId").focus();
-                return;
-            }
-
             $.post("{{$contextPath}}/admin/sfarticle/action.do", "action=" + $(this).attr("data-action") + "&" + $("form").serialize(), function(result){
                 if(result.code == 0){
                     changeHash("admin/sfarticle/index");

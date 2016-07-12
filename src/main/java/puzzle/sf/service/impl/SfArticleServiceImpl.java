@@ -20,7 +20,15 @@ public class SfArticleServiceImpl implements ISfArticleService {
 	*/
 	@Override
 	public boolean insert(SfArticle entity){
-		return sqlMapper.insert("SfArticleMapper.insert", entity);
+        try {
+            if(sqlMapper.insert("SfArticleMapper.insert", entity)){
+                entity.setArticleUrl("http://192.168.1.254:9080/admin/article/view/"+entity.getArticleId());
+                return true;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return false;
 	}
 
 	/**
