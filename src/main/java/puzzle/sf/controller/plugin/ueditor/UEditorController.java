@@ -12,7 +12,7 @@ import puzzle.sf.controller.BaseController;
 public class UEditorController extends BaseController {
     @RequestMapping(value = {"/ueditor"})
     public void index(){
-        UploadFile uploadFile = null;
+        puzzle.sf.controller.plugin.ueditor.UploadFile uploadFile = null;
         CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(session.getServletContext());
         //判断 request 是否有文件上传,即多部分请求
         if(multipartResolver.isMultipart(request)) {

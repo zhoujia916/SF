@@ -6,9 +6,9 @@ import java.util.List;
 import puzzle.sf.utils.Page;
 import puzzle.sf.entity.SystemAuthority;
 
-public interface ISystemAuthorityService{ 
+public interface ISystemAuthorityService{
 
-	public boolean insert(SystemAuthority entity);
+    public boolean insert(SystemAuthority entity);
 
     public boolean insertBatch(List<SystemAuthority> list);
 
@@ -19,9 +19,9 @@ public interface ISystemAuthorityService{
     public boolean save(SystemAuthority entity);
 
     public SystemAuthority query(Map<String, Object> map);
-    
+
     public List<SystemAuthority> queryList(Object param);
 
     public List<SystemAuthority> queryList(Map<String, Object> map, Page page);
-    
+
 }

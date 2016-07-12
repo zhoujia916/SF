@@ -31,14 +31,7 @@
         <typeAlias type="puzzle.sf.entity.SystemUserGroup" alias="SystemUserGroup" />
         <typeAlias type="puzzle.sf.entity.SystemUserMap" alias="SystemUserMap" />
 
-
-
-        <typeAlias type="puzzle.sf.entity.FcaAd" alias="FcaAd"/>
-        <typeAlias type="puzzle.sf.entity.FcaAdPosition" alias="FcaAdPosition"/>
-        <typeAlias type="puzzle.sf.entity.FcaArticle" alias="FcaArticle" />
-        <typeAlias type="puzzle.sf.entity.FcaArticleCat" alias="FcaArticleCat" />
-        <typeAlias type="puzzle.sf.entity.FcaArticleTemplate" alias="FcaArticleTemplate" />
-        <typeAlias type="puzzle.sf.entity.FcaUser" alias="FcaUser" />
+        <typeAlias type="puzzle.sf.entity.SfArticle" alias="SfArticle"/>
     </typeAliases>
 
     <!-- mybatis插件 -->

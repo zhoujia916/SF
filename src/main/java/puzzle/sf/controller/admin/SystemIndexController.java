@@ -26,8 +26,6 @@ public class SystemIndexController extends ModuleController {
     @Autowired
     private ISystemMenuActionService systemMenuActionService;
 
-    @Autowired
-    private IFcaUserService fcaUserService;
 
     //region request page
     @RequestMapping(value = {"/admin", "/admin/", "/admin/login"})

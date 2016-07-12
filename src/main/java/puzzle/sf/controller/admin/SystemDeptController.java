@@ -27,9 +27,6 @@ public class SystemDeptController extends ModuleController {
     @Autowired
     private ISystemDeptService systemDeptService;
 
-    @Autowired
-    private ISystemMenuActionService systemMenuActionService;
-
 
     @RequestMapping(value = {"/", "/index"})
     public String index(){

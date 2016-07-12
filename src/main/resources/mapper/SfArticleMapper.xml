@@ -1,40 +1,43 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="FcaArticleMapper">
-    <resultMap id="FcaArticle" type="puzzle.sf.entity.FcaArticle">
+<mapper namespace="SfArticleMapper">
+    <resultMap id="SfArticle" type="puzzle.sf.entity.SfArticle">
     	<id column="article_id" property="articleId" /> 
     	<result column="title" property="title" /> 
-    	<result column="title2" property="title2" /> 
+    	<result column="title2" property="title2" />
+        <result column="auth" property="auth"/>
     	<result column="cat_id" property="catId" /> 
     	<result column="cover" property="cover" /> 
-    	<result column="content" property="content" />
-        <result column="article_url" property="articleUrl"/>
-    	<result column="source_url" property="sourceUrl" /> 
+    	<result column="content" property="content" /> 
+    	<result column="article_url" property="articleUrl" /> 
+    	<result column="source_url" property="sourceUrl" />
+        <result column="abstracts" property="abstracts"/>
     	<result column="add_time" property="addTime" /> 
-    	<result column="add_user_id" property="addUserId" />
+    	<result column="add_user_id" property="addUserId" /> 
     	<result column="check_time" property="checkTime" /> 
     	<result column="status" property="status" /> 
     	<result column="check_user_id" property="checkUserId" /> 
     	<result column="sort_order" property="sortOrder" />
-        <result column="catName" property="catName"/>
         <result column="userName" property="userName"/>
     </resultMap>
 
     <sql id="allColumn">
-    	article_id, title, title2, cat_id, cover, content, article_url, source_url, add_time, add_user_id, check_time, status, check_user_id, sort_order
+    	article_id, title, title2, auth, cat_id, cover, content, article_url, source_url, abstracts, add_time, add_user_id, check_time, status, check_user_id, sort_order
     </sql>
 
-    <insert id="insert" parameterType="FcaArticle" useGeneratedKeys="true" keyProperty="articleId">
-        insert into fca_article 
+    <insert id="insert" parameterType="SfArticle" useGeneratedKeys="true" keyProperty="articleId">
+        insert into sf_article 
         (
         	
         	<if test="title != null">title, </if>
         	<if test="title2 != null">title2, </if>
+            <if test="auth != null">auth, </if>
         	<if test="catId != null">cat_id, </if>
         	<if test="cover != null">cover, </if>
         	<if test="content != null">content, </if>
-            <if test="articleUrl != null">article_url,</if>
+        	<if test="articleUrl != null">article_url, </if>
         	<if test="sourceUrl != null">source_url, </if>
+            <if test="abstracts != null">abstracts, </if>
         	<if test="addTime != null">add_time, </if>
         	<if test="addUserId != null">add_user_id, </if>
         	<if test="checkTime != null">check_time, </if>
@@ -47,11 +50,13 @@
         	
         	<if test="title != null">#{title}, </if>
         	<if test="title2 != null">#{title2}, </if>
+            <if test="auth != null">#{auth}, </if>
         	<if test="catId != null">#{catId}, </if>
         	<if test="cover != null">#{cover}, </if>
         	<if test="content != null">#{content}, </if>
-            <if test="articleUrl != null">#{articleUrl},</if>
+        	<if test="articleUrl != null">#{articleUrl}, </if>
         	<if test="sourceUrl != null">#{sourceUrl}, </if>
+            <if test="abstracts != null">#{abstracts}, </if>
         	<if test="addTime != null">#{addTime}, </if>
         	<if test="addUserId != null">#{addUserId}, </if>
         	<if test="checkTime != null">#{checkTime}, </if>
@@ -61,146 +66,140 @@
        	)
     </insert>
 
-    <insert id="insertBatch" parameterType="java.util.List">
-		insert into fca_article
-		(
-			
-			title, 
-			title2, 
-			cat_id, 
-			cover, 
-			content,
-            article_url,
-			source_url, 
-			add_time, 
-			add_user_id,
-			check_time, 
-			status, 
-			check_user_id, 
-			sort_order
-		)
-		values
-		<foreach collection="list" item="item" index="index" separator=",">
-		(
-			
-			#{item.title}, 
-			#{item.title2}, 
-			#{item.catId}, 
-			#{item.cover}, 
-			#{item.content},
-            #{item.articleUrl},
-			#{item.sourceUrl}, 
-			#{item.addTime}, 
-			#{item.addUserId},
-			#{item.checkTime}, 
-			#{item.status}, 
-			#{item.checkUserId}, 
-			#{item.sortOrder}
-		)
-		</foreach>
-	</insert>
-
-    <update id="update" parameterType="FcaArticle">
-        update fca_article 
+    <update id="update" parameterType="SfArticle">
+        update sf_article
         <set>
-			<trim suffixOverrides=",">
-                <if test="title != null and title !=''">
-                    title = #{title},
+            <trim suffixOverrides=",">
+                <if test="title != null">
+                    title = #{title}
                 </if>
-                <if test="title2 != null and title2 !=''">
-                    title2 = #{title2},
+                <if test="title2 != null">
+                    title2 = #{title2}
                 </if>
-                <if test="catId != null and catId > 0">
-                    cat_id = ${catId},
+                <if test="auth != null">
+                    auth = #{auth}
+                </if>
+                <if test="catId != null">
+                    cat_id = #{catId}
                 </if>
                 <if test="cover != null and cover != ''">
-                    cover = #{cover},
+                    cover = #{cover}
                 </if>
-                <if test="content != null and content != ''">
-                    content = #{content},
+                <if test="content != null">
+                    content = #{content}
                 </if>
-                <if test="articleUrl != null and articleUrl !=''">
-                    article_url = #{articleUrl},
+                <if test="articleUrl != null">
+                    article_url = #{articleUrl}
                 </if>
-                <if test="sourceUrl != null  and sourceUrl != ''">
-                    source_url = #{sourceUrl},
+                <if test="sourceUrl != null">
+                    source_url = #{sourceUrl}
                 </if>
-                <if test="checkTime != null and checkTime != ''">
-                    check_time = #{checkTime},
+                <if test="abstracts != null">
+                    abstracts = #{abstracts}
                 </if>
-                <if test="status != null and status > 0">
-                    status = ${status},
+                <if test="addTime != null">
+                    add_time = #{addTime}
                 </if>
-                <if test="checkUserId != null and checkUserId > 0">
-                    check_user_id = ${checkUserId},
+                <if test="addUserId != null">
+                    add_user_id = #{addUserId}
                 </if>
-                <if test="sortOrder != null and sortOrder != ''">
-                    sort_order = ${sortOrder},
+                <if test="checkTime != null">
+                    check_time = #{checkTime}
                 </if>
-			</trim>
+                <if test="status != null">
+                    status = #{status}
+                </if>
+                <if test="checkUserId != null">
+                    check_user_id = #{checkUserId}
+                </if>
+                <if test="sortOrder != null">
+                    sort_order = #{sortOrder}
+                </if>
+            </trim>
         </set>
         <where> 
-			<trim prefixOverrides="and | or">  
-				<if test="articleId != null and articleId > 0">
-					and article_id = #{articleId}
-				</if>
-			</trim>	
+        	<if test="articleId > 0">
+                article_id = #{articleId}
+            </if>
         </where>
     </update>
 
     <delete id="delete" parameterType="Map">
-        delete from fca_article
+        delete from sf_article
         <where>
 	        <trim prefixOverrides="and | or">  
-				<!--单项删除-->
-				<if test="articleId != null and articleId > 0">
-					and article_id = #{articleId}
-				</if>
-				<!--批量删除-->
-				<if test="articleIds != null and articleIds != ''">
-					and article_id in (${articleIds})
-				</if>
+	        	<if test="articleId > 0">
+	                article_id = #{articleId}
+	            </if>
+	        	<if test="title != null">
+	                title = #{title}
+	            </if>
+	        	<if test="title2 != null">
+	                title2 = #{title2}
+	            </if>
+	        	<if test="catId > 0">
+	                cat_id = #{catId}
+	            </if>
+	        	<if test="cover != null">
+	                cover = #{cover}
+	            </if>
+	        	<if test="content != null">
+	                content = #{content}
+	            </if>
+	        	<if test="articleUrl != null">
+	                article_url = #{articleUrl}
+	            </if>
+	        	<if test="sourceUrl != null">
+	                source_url = #{sourceUrl}
+	            </if>
+	        	<if test="addUserId > 0">
+	                add_user_id = #{addUserId}
+	            </if>
+	        	<if test="status > 0">
+	                status = #{status}
+	            </if>
+	        	<if test="checkUserId > 0">
+	                check_user_id = #{checkUserId}
+	            </if>
+	        	<if test="sortOrder > 0">
+	                sort_order = #{sortOrder}
+	            </if>
 	        </trim>
         </where>
     </delete>
 
-    <select id="query" parameterType="Map" resultMap="FcaArticle">
-        select fa.*,su.user_name as userName from fca_article as fa
-        inner join system_user as su on su.user_id = fa.add_user_id
+    <select id="query" parameterType="Map" resultMap="SfArticle">
+        select <include refid="allColumn"/> from sf_article
         <where>  
-        	<if test="articleId != null and articleId > 0">
-                and article_id = #{articleId}
+        	<if test="articleId > 0">
+                article_id = #{articleId}
             </if>
         </where> 
     </select>
 
-    <select id="queryList" parameterType="Map" resultMap="FcaArticle">
-        select fa.*,fac.cat_name as catName,su.user_name as userName from fca_article as fa
-        inner join fca_article_cat as fac on fa.cat_id = fac.cat_id
-        inner join system_user as su on su.user_id = fa.add_user_id
+    <select id="queryList" parameterType="Map" resultMap="SfArticle">
+        select sa.*,su.user_name as userName from sf_article as sa
+        inner join system_user as su
+        on sa.add_user_id=su.user_id
         <where>
 	        <trim prefixOverrides="and | or">
-	        	<if test="title != null and title != ''">
-	                and fa.title like concat('%',#{title},'%')
+	        	<if test="title != null">
+	                and sa.title like concat('%',#{title},'%')
 	            </if>
-                <if test="userName != null and userName != ''">
-                    and su.user_name like concat('%',#{userName},'%')
+                <if test="userName !=null">
+                    and su.user_name = #{userName}
                 </if>
-	        	<if test="catId != null and catId > 0">
-	                and fac.cat_id = #{catId}
-	            </if>
-	        	<if test="status != null and status > 0">
-	                and fa.status = ${status}
-	            </if>
-                <if test="beginTime != null and beginTime > 0">
-                    and fa.add_time &gt;= #{beginTime}
+                <if test="status != null">
+                    and sa.status = ${status}
                 </if>
-                <if test="endTime != null and endTime > 0">
-                    and fa.add_time &lt;= #{endTime}
+                <if test="startDate != null">
+                    and sa.add_time &gt;= #{startDate}
+                </if>
+                <if test="endDate != null">
+                    and sa.add_time &lt;= #{endDate}
                 </if>
 	        </trim>
         </where>
-        order by fa.sort_order desc, fa.article_id desc
     </select>
 
 </mapper>
