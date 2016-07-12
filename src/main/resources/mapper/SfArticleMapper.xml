@@ -71,49 +71,49 @@
         <set>
             <trim suffixOverrides=",">
                 <if test="title != null">
-                    title = #{title}
+                    title = #{title},
                 </if>
                 <if test="title2 != null">
-                    title2 = #{title2}
+                    title2 = #{title2},
                 </if>
                 <if test="auth != null">
-                    auth = #{auth}
+                    auth = #{auth},
                 </if>
                 <if test="catId != null">
-                    cat_id = #{catId}
+                    cat_id = #{catId},
                 </if>
                 <if test="cover != null and cover != ''">
-                    cover = #{cover}
+                    cover = #{cover},
                 </if>
                 <if test="content != null">
-                    content = #{content}
+                    content = #{content},
                 </if>
                 <if test="articleUrl != null">
-                    article_url = #{articleUrl}
+                    article_url = #{articleUrl},
                 </if>
                 <if test="sourceUrl != null">
-                    source_url = #{sourceUrl}
+                    source_url = #{sourceUrl},
                 </if>
                 <if test="abstracts != null">
-                    abstracts = #{abstracts}
+                    abstracts = #{abstracts},
                 </if>
                 <if test="addTime != null">
-                    add_time = #{addTime}
+                    add_time = #{addTime},
                 </if>
                 <if test="addUserId != null">
-                    add_user_id = #{addUserId}
+                    add_user_id = #{addUserId},
                 </if>
                 <if test="checkTime != null">
-                    check_time = #{checkTime}
+                    check_time = #{checkTime},
                 </if>
                 <if test="status != null">
-                    status = #{status}
+                    status = #{status},
                 </if>
                 <if test="checkUserId != null">
-                    check_user_id = #{checkUserId}
+                    check_user_id = #{checkUserId},
                 </if>
                 <if test="sortOrder != null">
-                    sort_order = #{sortOrder}
+                    sort_order = #{sortOrder},
                 </if>
             </trim>
         </set>

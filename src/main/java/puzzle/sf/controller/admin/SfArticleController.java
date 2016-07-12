@@ -120,6 +120,8 @@ public class SfArticleController extends ModuleController{
         return result;
     }
 
+    @RequestMapping(value = "/action.do")
+    @ResponseBody
     public Result action(String action,SfArticle article){
         Result result=new Result();
         try{

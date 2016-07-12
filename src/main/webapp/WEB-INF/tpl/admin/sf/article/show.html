@@ -73,7 +73,7 @@
                             </label>
                             <div class="col-sm-9"{{if $action eq 'VIEW'}} style="padding-top:10px"{{/if}}>
                                 {{if $action eq 'CREATE'}}
-                                <input type="text"  id="auth" value="官方" name="auth" placeholder="作者" class="txt input-sm col-sm-6">
+                                <input type="text"  id="auth" name="auth" placeholder="作者" class="txt input-sm col-sm-6">
                                 {{elseif $action eq 'UPDATE'}}
                                 <input type="text"  id="auth" value="{{$article.auth}}"  name="auth" placeholder="作者" class="txt input-sm col-sm-6">
                                 {{elseif $action eq 'VIEW'}}
@@ -199,9 +199,9 @@
                 return;
             }
 
-            $.post("{{$contextPath}}/admin/fcaarticle/action.do", "action=" + $(this).attr("data-action") + "&" + $("form").serialize(), function(result){
+            $.post("{{$contextPath}}/admin/sfarticle/action.do", "action=" + $(this).attr("data-action") + "&" + $("form").serialize(), function(result){
                 if(result.code == 0){
-                    changeHash("admin/fcaarticle/index");
+                    changeHash("admin/sfarticle/index");
                 }else{
                     showTip(result.msg);
                 }
