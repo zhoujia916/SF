@@ -94,10 +94,10 @@ public class SfArticleController extends ModuleController{
                     map.put("status",article.getStatus());
                 }
                 if(StringUtil.isNotNullOrEmpty(article.getStartDate())){
-                    map.put("startDate", ConvertUtil.toLong(ConvertUtil.toDateTime(article.getStartDate())));
+                    map.put("startDate", ConvertUtil.toLong(ConvertUtil.toDateTime(article.getStartDate() + " 00:00:00")));
                 }
                 if(StringUtil.isNotNullOrEmpty(article.getEndDate())){
-                    map.put("endDate", ConvertUtil.toLong(ConvertUtil.toDateTime(article.getEndDate())));
+                    map.put("endDate", ConvertUtil.toLong(ConvertUtil.toDateTime(article.getEndDate() + " 23:59:59")));
                 }
             }
             List<SfArticle> list=sfArticleService.queryList(map,page);

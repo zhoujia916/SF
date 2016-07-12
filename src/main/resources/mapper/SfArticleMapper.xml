@@ -200,6 +200,7 @@
                 </if>
 	        </trim>
         </where>
+        order by sa.sort_order desc,sa.article_id desc
     </select>
 
 </mapper>
