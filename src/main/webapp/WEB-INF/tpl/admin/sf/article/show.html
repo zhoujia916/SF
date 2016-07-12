@@ -118,7 +118,7 @@
                                 {{if $action eq 'CREATE'}}
                                 <textarea style="width: 523px;height: 100px" id="abstracts"  name="abstracts" placeholder="摘要" ></textarea>
                                 {{elseif $action eq 'UPDATE'}}
-                                <textarea id="abstracts" value="{{$article.abstracts}}"  name="abstracts" placeholder="摘要"></textarea>
+                                <textarea style="width: 523px;height: 100px" id="abstracts" value="{{$article.abstracts}}"  name="abstracts" placeholder="摘要"></textarea>
                                 {{elseif $action eq 'VIEW'}}
                                 {{$article.abstracts}}
                                 {{/if}}
