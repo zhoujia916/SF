@@ -66,10 +66,48 @@ public class Constants {
         }
     };
 
+<<<<<<< HEAD
     public static final Integer DEFAULT_ROLE_TYPE = 2;
 
     public static final Integer AUTO_AUTHORITY_TARGET_TYPE_MENU = 1;
     public static final Integer AUTO_AUTHORITY_TARGET_TYPE_ACTION = 2;
+=======
+    /**
+     * 1=账户有效  2=账务无效
+     */
+    public static final Integer FCA_USER_STATUS_DISABLED = 1;
+    public static final Integer FCA_USER_STATUS_NORMAL = 2;
+
+    public static final Integer SYSTEM_AUTHORITY_TARGET_MENU = 1;
+    public static final Integer SYSTEM_AUTHORITY_TARGET_ACTION = 2;
+
+    public static final Map<Integer, String> MAP_AUTO_ARTICLE_STATUS = new HashMap<Integer, String>(){
+        {
+            put(1,"已保存");
+            put(2,"已提交");
+            put(3,"已审核");
+        }
+    };
+
+
+    //endregion
+
+    //region AUTO_CAR_TYPE
+    public static final Integer AUTO_CAR_HAS_PARTS_NO = 1;
+    public static final Integer AUTO_CAR_HAS_PARTS_YES = 2;
+    public static final Map<Integer, String> MAP_AUTO_CAR_HAS_PARTS = new HashMap<Integer, String>(){
+        {
+            put(1,"没有配件");
+            put(2,"有配件");
+        }
+    };
+    //endregion
+
+
+
+    public static final Integer DEFAULT_ROLE_TYPE = 2;
+
+>>>>>>> 26373d77ab36e6a5ba4665b75eb361c769e39bdb
 
     //region System User Status
     public static final Integer SYSTEM_USER_STATUS_VALID = 1;
@@ -127,7 +165,29 @@ public class Constants {
 
         public static final String ADMIN_SF_ARTICLE = "admin/sf/article/index";
 
+<<<<<<< HEAD
         public static final String ADMIN_SF_ARTICLE_SHOW = "admin/sf/article/show";
+=======
+        public static final String ADMIN_FCA_USER_SHOW = "admin/auto/user/show";
+
+        public static final String ADMIN_FCA_ARTICLE = "admin/auto/article/index";
+
+        public static final String ADMIN_FCA_ARTICLE_SHOW = "admin/auto/article/show";
+
+        public static final String ADMIN_FCA_ARTICLE_CAT = "admin/auto/articlecat/index";
+
+        public static final String ADMIN_FCA_ARTICLE_TEMPLATE = "admin/auto/articletemplate/index";
+
+        /**
+         * 微信模块
+         */
+        public static final String WX_INDEX = "wx/index";
+
+        public static final String WX_ARTICLE = "wx/article/index";
+
+        public static final String WX_USER_LOGIN = "wx/user/login";
+        public static final String WX_USER_FORGET = "wx/user/forget";
+>>>>>>> 26373d77ab36e6a5ba4665b75eb361c769e39bdb
     }
 
     public class PageHelper{
