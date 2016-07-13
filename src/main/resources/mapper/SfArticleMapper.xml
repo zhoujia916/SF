@@ -129,41 +129,11 @@
         <where>
 	        <trim prefixOverrides="and | or">  
 	        	<if test="articleId > 0">
-	                article_id = #{articleId}
+	                and article_id = #{articleId}
 	            </if>
-	        	<if test="title != null">
-	                title = #{title}
-	            </if>
-	        	<if test="title2 != null">
-	                title2 = #{title2}
-	            </if>
-	        	<if test="catId > 0">
-	                cat_id = #{catId}
-	            </if>
-	        	<if test="cover != null">
-	                cover = #{cover}
-	            </if>
-	        	<if test="content != null">
-	                content = #{content}
-	            </if>
-	        	<if test="articleUrl != null">
-	                article_url = #{articleUrl}
-	            </if>
-	        	<if test="sourceUrl != null">
-	                source_url = #{sourceUrl}
-	            </if>
-	        	<if test="addUserId > 0">
-	                add_user_id = #{addUserId}
-	            </if>
-	        	<if test="status > 0">
-	                status = #{status}
-	            </if>
-	        	<if test="checkUserId > 0">
-	                check_user_id = #{checkUserId}
-	            </if>
-	        	<if test="sortOrder > 0">
-	                sort_order = #{sortOrder}
-	            </if>
+                <if test="articleIds != null">
+                    and article_id in (${articleIds})
+                </if>
 	        </trim>
         </where>
     </delete>

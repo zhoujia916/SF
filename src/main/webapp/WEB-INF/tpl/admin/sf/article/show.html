@@ -61,9 +61,9 @@
                                 {{if $action eq 'CREATE'}}
                                 <input type="text"  id="title2"  name="title2" placeholder="文章副标题" class="txt input-sm col-sm-6">
                                 {{elseif $action eq 'UPDATE'}}
-                                <input type="text"  id="title2" value="{{$article.title2}}"  name="title2" placeholder="文章副标题" class="txt input-sm col-sm-6">
+                                <input type="text"  id="title2" {{if $article.title2}} value="{{$article.title2}}" {{/if}} name="title2" placeholder="文章副标题" class="txt input-sm col-sm-6">
                                 {{elseif $action eq 'VIEW'}}
-                                {{$article.title2}}
+                                {{if $article.title2}}{{$article.title2}}{{/if}}
                                 {{/if}}
                             </div>
                         </div>
@@ -73,11 +73,11 @@
                             </label>
                             <div class="col-sm-9"{{if $action eq 'VIEW'}} style="padding-top:10px"{{/if}}>
                                 {{if $action eq 'CREATE'}}
-                                <input type="text"  id="auth" name="auth" placeholder="作者" class="txt input-sm col-sm-6">
+                                <input type="text" data-init="官方" id="auth" name="auth" placeholder="作者" class="txt input-sm col-sm-6">
                                 {{elseif $action eq 'UPDATE'}}
-                                <input type="text"  id="auth" value="{{$article.auth}}"  name="auth" placeholder="作者" class="txt input-sm col-sm-6">
+                                <input type="text"  id="auth" {{if $article.auth}} value="{{$article.auth}}" {{/if}}  name="auth" placeholder="作者" class="txt input-sm col-sm-6">
                                 {{elseif $action eq 'VIEW'}}
-                                {{$article.auth}}
+                                {{if $article.auth}}{{$article.auth}}{{/if}}
                                 {{/if}}
                             </div>
                         </div>
@@ -103,9 +103,9 @@
                                 {{if $action eq 'CREATE'}}
                                 <input type="text"  id="sourceUrl"  name="sourceUrl" placeholder="来源地址" class="txt input-sm col-sm-6">
                                 {{elseif $action eq 'UPDATE'}}
-                                <input type="text"  id="sourceUrl" value="{{$article.sourceUrl}}"  name="sourceUrl" placeholder="来源地址" class="txt input-sm col-sm-6">
+                                <input type="text"  id="sourceUrl" {{if $article.sourceUrl}} value="{{$article.sourceUrl}}" {{/if}} name="sourceUrl" placeholder="来源地址" class="txt input-sm col-sm-6">
                                 {{elseif $action eq 'VIEW'}}
-                                {{$article.sourceUrl}}
+                                {{if $article.sourceUrl}}{{$article.sourceUrl}}{{/if}}
                                 {{/if}}
                             </div>
                         </div>
@@ -118,9 +118,9 @@
                                 {{if $action eq 'CREATE'}}
                                 <textarea style="width: 523px;height: 100px" id="abstracts"  name="abstracts" placeholder="摘要" ></textarea>
                                 {{elseif $action eq 'UPDATE'}}
-                                <textarea style="width: 523px;height: 100px" id="abstracts" value="{{$article.abstracts}}"  name="abstracts" placeholder="摘要"></textarea>
+                                <textarea style="width: 523px;height: 100px" id="abstracts" name="abstracts" placeholder="摘要">{{if $article.abstracts}}{{$article.abstracts}}{{/if}}</textarea>
                                 {{elseif $action eq 'VIEW'}}
-                                {{$article.abstracts}}
+                                    {{if $article.abstracts}}{{$article.abstracts}}{{/if}}
                                 {{/if}}
                             </div>
                         </div>
@@ -147,9 +147,9 @@
                         {{if $action eq 'CREATE'}}
                         <textarea id="content" name="content" style="min-height:300px;width:100%;"></textarea>
                         {{elseif $action eq 'UPDATE'}}
-                        <textarea id="content" name="content" style="min-height:300px;width:100%;">{{$article.content}}</textarea>
+                        <textarea id="content" name="content" style="min-height:300px;width:100%;">{{if $article.content}}{{$article.content}}{{/if}}</textarea>
                         {{elseif $action eq 'VIEW'}}
-                        {{$article.content}}
+                        {{if $article.content}}{{$article.content}}{{/if}}
                         {{/if}}
 
                     </div>
@@ -187,9 +187,15 @@
         UE.getEditor("content");
         $("#btnSubmit").on("click", function(){
             var title = $.trim($("#title").val());
+            var content = $.trim($("#content").val());
             if(title == ""){
                 showTip("标题不能为空");
                 $("#title").focus();
+                return;
+            }
+            if(content == ""){
+                showTip("文章内容不能为空");
+                $("#content").focus();
                 return;
             }
             $.post("{{$contextPath}}/admin/sfarticle/action.do", "action=" + $(this).attr("data-action") + "&" + $("form").serialize(), function(result){
