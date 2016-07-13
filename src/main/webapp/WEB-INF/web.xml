@@ -5,6 +5,10 @@
          version="3.0">
 
     <display-name>SF</display-name>
+    <context-param>
+        <param-name>webAppRootKey</param-name>
+        <param-value>sf.root</param-value>
+    </context-param>
     <!--Spring MVC 配置-->
     <context-param>
         <param-name>contextConfigLocation</param-name>
