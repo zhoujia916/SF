@@ -60,13 +60,13 @@ public class WeiXinApiController extends BaseController {
             Document doc = builder.parse(in);
             String msgType = doc.getElementsByTagName("MsgType").item(0).getTextContent();
             if(!StringUtil.isNullOrEmpty(msgType)){
-                if(msgType.equals("subscribe")){
+                if(msgType.equalsIgnoreCase("subscribe")){
                     receiveSubscribe(doc);
                 }
-                else if(msgType.equals("unsubscribe")){
+                else if(msgType.equalsIgnoreCase("unsubscribe")){
                     receiveUnsubscribe(doc);
                 }
-                else if(msgType.equals("text") || msgType.equals("voice")){
+                else if(msgType.equalsIgnoreCase("text") || msgType.equals("voice")){
                     receiveMessage(doc);
                 }
             }

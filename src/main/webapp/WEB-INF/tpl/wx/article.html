@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+<head>
+    <title>{{$article.title}}</title>
+    <link type="text/css" rel="stylesheet" href="{{$contextPath}}/resource/wx/css/site.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+</head>
+<body>
+    <div class="page">
+        <div class="header">
+            <div class="title">{{$article.title}}</div>
+            <div>
+                <span class="date">{{$article.addDate}}</span>
+                <span class="author">{{$article.auth}}</span>
+                <a class="subscribe"  id="subscribe">上海汽车报</a>
+            </div>
+        </div>
+        <div class="content">
+            <div>{{$article.content}}</div>
+        </div>
+
+        <div class="dialog">
+            <div class="overlay"></div>
+
+            <div class="box">
+                <div class="close" id="close">×</div>
+                <div class="code">
+                    <img src="http://open.weixin.qq.com/qr/code/?username=shautonews">
+                </div>
+                <p class="guide">长按图片【识别二维码】关注公众号</p>
+                <hr />
+                <p class="title">无法识别二维码</p>
+                <p class="step">1.打开微信，点击‘添加朋友’</p>
+                <p class="step">2.搜索微信号：shautonews</p>
+                <p class="step">3.点击‘关注’，完成</p>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="//cdn.bootcss.com/zepto/1.1.6/zepto.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            $("#subscribe").on("click", function(){
+                $("div.dialog").show();
+            });
+            $(".code img").on("click", function(event){
+                event.stopPropagation();
+            });
+            $(".dialog").on("click", function(){
+                $("div.dialog").hide();
+            });
+        })
+    </script>
+</body>
+</html>

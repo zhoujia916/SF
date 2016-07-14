@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Controller(value="adminFcaAuthorityController")
+@Controller(value="adminSystemAuthorityController")
 @RequestMapping(value = {"/admin/systemauthority"})
 public class SystemAuthorityController extends ModuleController {
 

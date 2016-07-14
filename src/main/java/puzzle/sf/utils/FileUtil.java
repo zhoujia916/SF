@@ -108,6 +108,13 @@ public class FileUtil {
         }
 	}
 
+    public static void checkFileDir(String filePath){
+        File file = new File(filePath);
+        if (!file.exists()) {
+            file.getParentFile().mkdirs();
+        }
+    }
+
     public static boolean appendFile(String fileName, String content){
         try {
             checkFilePath(fileName);
@@ -135,6 +142,19 @@ public class FileUtil {
 
         }
         return result.toString();
+    }
+
+    public static byte[] readFileByte(String fileName){
+        byte[] data = null;
+        try{
+            FileInputStream fis = new FileInputStream(fileName);
+            data = new byte[fis.available()];
+            fis.read(data, 0, data.length);
+            fis.close();
+        }catch (Exception e){
+
+        }
+        return data;
     }
 
     public static boolean createFile(String fileName){

@@ -242,4 +242,14 @@ public class SfArticle implements Serializable{
     public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
+
+    public String getAddDate() {
+        return addDate;
+    }
+
+    public void setAddDate(String addDate) {
+        this.addDate = addDate;
+    }
+
+    private String addDate;
 }

@@ -45,19 +45,22 @@ public class InitConfig implements InitializingBean {
     public void loadSystemProperty(){
         if(properties == null){
             properties = new HashMap<String, String>();
-            String path = "WEB-INF/classes/system.properties";
+            String path = Thread.currentThread().getContextClassLoader().getResource("").getPath() + "system.properties";
             Properties props = new Properties();
             InputStream is = null;
             try {
                 is = new FileInputStream(new File(path));
                 props.load(is);
                 // 读取配置文件，配置项
-                Enumeration<Object> keys = props.keys();
-                while (keys.hasMoreElements()){
-                    properties.put(keys.toString(), props.getProperty(keys.toString()));
+                Set<String> keys = props.stringPropertyNames();
+                if(keys != null && keys.size() > 0){
+                    for(String key : keys){
+                        properties.put(key, props.getProperty(key));
+                    }
                 }
             } catch (IOException e) {
                 logger.error("loadSystemProperty error:" + e.getMessage());
+                e.printStackTrace();
             } finally {
                 try {
                     if (null != is)

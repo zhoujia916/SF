@@ -10,8 +10,9 @@
         <div id="gridview" class="gridview">
             <div class="grid-filter">
                 <input type="text input-sm" style="height: 29px" class="txt" name="title" placeholder="标题" />
-                <input type="text input-sm" style="height: 29px" class="txt" name="userName" placeholder="发布者" />
-                <select name="status" style="height: 29px;width: 160px;">
+                <input type="text input-sm" style="height: 29px" class="txt" name="auth" placeholder="发布者" />
+
+                <select name="status" style="height: 29px;width: 160px;display:none;" >
                     <option value="0">请选择状态</option>
                     <option value="1">已保存</option>
                     <option value="2">已提交</option>
@@ -61,14 +62,23 @@
             <div class="grid-form search-form "></div>
 
         </div>
-
+        <div id="qr-dialog" class="modal" style="display: none;">
+            <div class="modal-dialog" style="width:300px;">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div id="img" style="padding:35px"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- PAGE CONTENT ENDS -->
     </div><!-- /.col -->
 </div><!-- /.row -->
-
+<script type="text/javascript" src="{{$contextPath}}/resource/admin/js/qrcode.js"></script>
+<script type="text/javascript" src="{{$contextPath}}/resource/admin/js/jquery.qrcode.js"></script>
 <!-- page specific plugin scripts -->
 <script type="text/javascript">
-    $('.page-content-area').ace_ajax('loadScripts', [null,null], function() {
+    $('.page-content-area').ace_ajax('loadScripts', [null, null], function() {
         $( "#datepicker1" ).datepicker({
             showOtherMonths: true,
             selectOtherMonths: false
@@ -77,6 +87,14 @@
         $( "#datepicker2" ).datepicker({
             showOtherMonths: true,
             selectOtherMonths: false
+        });
+
+        $("#gridview").on("click", "a.qrcode", function () {
+            $('#img').empty().qrcode({
+                width:200,
+                height:200,
+                text:$(this).html()
+            });
         });
 
         $("#gridview").gridview({
@@ -94,7 +112,10 @@
             },{
                 name:"title"
             },{
-                name:"articleUrl"
+                name:"articleUrl",
+                format: function(opts, column, row){
+                    return "<td><a title='点击生成二维码' class='qrcode' href='#qr-dialog' data-toggle='modal'>http://sf.idzlz.com/wx/article/" + row["articleId"] + "</a></span></td>";
+                }
             },{
                 name:"auth"
             },{

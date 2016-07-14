@@ -17,7 +17,7 @@
 
 <div class="row" id="">
     <div class="col-xs-12">
-        <form class="form-horizontal">
+        <form class="form-horizontal" id="form" action="{{$contextPath}}/admin/sfarticle/action.do" enctype="multipart/form-data">
             <div class="tabbable">
                 <ul class="nav nav-tabs padding-16">
                     <li class="active">
@@ -87,7 +87,7 @@
                             </label>
                             <div class="col-sm-5" style="height:62px;{{if $action eq 'VIEW'}}padding-top:10px{{/if}}">
                                 {{if $action eq 'CREATE' or $action eq 'UPDATE'}}
-                                <input type="hidden" id="hidCover" name="cover" />
+                                <input type="hidden" id="hidCover" name="cover" value="{{if $article.cover}}{{$article.cover}}{{/if}}" />
                                 <input type="file" id="file" name="file" placeholder="封面图片">
                                 {{elseif $action eq 'VIEW'}}
                                 <img src="{{$article.cover}}" style="height:100%;" />
@@ -116,9 +116,9 @@
 
                             <div class="col-sm-9"{{if $action eq 'VIEW'}} style="padding-top:10px"{{/if}}>
                                 {{if $action eq 'CREATE'}}
-                                <textarea style="width: 523px;height: 100px" id="abstracts"  name="abstracts" placeholder="摘要" ></textarea>
+                                <textarea style="width: 523px;height: 100px" id="abstracts" name="abstracts" placeholder="摘要" ></textarea>
                                 {{elseif $action eq 'UPDATE'}}
-                                <textarea style="width: 523px;height: 100px" id="abstracts" value="{{$article.abstracts}}"  name="abstracts" placeholder="摘要"></textarea>
+                                <textarea style="width: 523px;height: 100px" id="abstracts" name="abstracts" placeholder="摘要">{{$article.abstracts}}</textarea>
                                 {{elseif $action eq 'VIEW'}}
                                 {{$article.abstracts}}
                                 {{/if}}
@@ -133,7 +133,7 @@
                                 {{if $action eq 'CREATE'}}
                                 <input type="text"  id="sortOrder"  name="sortOrder" placeholder="排序号" value="0" class="txt input-sm col-sm-2">
                                 {{elseif $action eq 'UPDATE'}}
-                                <input type="text"  id="sortOrder" value="{{$article.sortOrder}}"  name="sortOrder" placeholder="排序号" class="txt input-sm col-sm-6">
+                                <input type="text"  id="sortOrder" value="{{$article.sortOrder}}"  name="sortOrder" placeholder="排序号" class="txt input-sm col-sm-2">
                                 {{elseif $action eq 'VIEW'}}
                                 {{$article.sortOrder}}
                                 {{/if}}
@@ -156,6 +156,7 @@
             </div>
 
             <div class="clearfix form-actions">
+                <input type="hidden" name="action" value="{{$action}}">
                 {{if $action eq 'CREATE' or $action eq 'UPDATE'}}
                 <button id="btnReset" class="btn" type="reset">
                     <i class="ace-icon fa fa-undo bigger-110"></i>
@@ -173,15 +174,15 @@
 
     </div><!-- /.col -->
 </div><!-- /.row -->
+{{if $action eq 'CREATE' or $action eq 'UPDATE'}}
+<script type="text/javascript" src="{{$contextPath}}/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="{{$contextPath}}/ueditor/ueditor.all.min.js"></script>
+<script type="text/javascript" src="{{$contextPath}}/lang/zh-cn/zh-cn.js"></script>
+
+{{/if}}
 <script type="text/javascript">
 
-    $('.page-content-area').ace_ajax('loadScripts', [ null,
-        {{if $action eq 'CREATE' or $action eq 'UPDATE'}}
-        "{{$contextPath}}/ueditor/ueditor.config.js",
-        "{{$contextPath}}/ueditor/ueditor.all.min.js",
-        "{{$contextPath}}/ueditor/lang/zh-cn/zh-cn.js",
-        {{/if}}
-        null], function() {
+    $('.page-content-area').ace_ajax('loadScripts', [ null,null], function() {
 
         {{if $action eq 'CREATE' or $action eq 'UPDATE'}}
         UE.getEditor("content");
@@ -192,17 +193,24 @@
                 $("#title").focus();
                 return;
             }
-            $.post("{{$contextPath}}/admin/sfarticle/action.do", "action=" + $(this).attr("data-action") + "&" + $("form").serialize(), function(result){
-                if(result.code == 0){
-                    changeHash("admin/sfarticle/index");
-                }else{
-                    showTip(result.msg);
+            $("#form").ajaxSubmit({
+                type: 'post',
+                url: '{{$contextPath}}/admin/sfarticle/action.do',
+                dataType:"json",
+                success: function(result) {
+                    if(result.code == 0){
+                        changeHash("admin/sfarticle/index");
+                    }else {
+                        showTip(result.msg);
+                    }
                 }
-            }, "json");
+            });
+
+            return false;
         });
         {{/if}}
         {{if $action eq 'CREATE' or $action eq 'UPDATE'}}
-        var cover = $('#file').ace_file_input({
+        $('#file').ace_file_input({
             style:'well',
             allowExt: ["jpeg", "jpg", "png", "gif" , "bmp"],
             allowMime: ["image/jpg", "image/jpeg", "image/png", "image/gif", "image/bmp"],
@@ -227,13 +235,13 @@
             }
         });
         {{/if}}
-        {{if $action eq 'UPDATE'}}
+        {{if $action eq 'UPDATE' and $article.cover}}
         var files = [{
             name: "temp.jpeg",
             type: "image",
             path: "{{$article.cover}}"
         }];
-        cover.ace_file_input("show_file_list", files, false);
+        $('#file').ace_file_input("show_file_list", files, false);
         {{/if}}
     });
 </script>

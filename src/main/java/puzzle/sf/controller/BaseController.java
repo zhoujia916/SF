@@ -6,16 +6,21 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.Cookie;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.multipart.MultipartFile;
 import puzzle.sf.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import puzzle.sf.init.InitConfig;
+import puzzle.sf.utils.FileUtil;
 import puzzle.sf.utils.StringUtil;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.HttpCookie;
+import java.net.URLEncoder;
 
 public class BaseController {
 
@@ -168,6 +173,28 @@ public class BaseController {
         }
     }
 
+    protected String upload(MultipartFile file, String filePath) throws Exception{
+        FileUtil.checkFileDir(filePath);
+        String rootPath = session.getServletContext().getRealPath("");
+        String host = request.getScheme() + "://" + request.getServerName();
+        if(request.getServerPort() != 80){
+            host += ":" + request.getServerPort();
+        }
+        host += request.getContextPath();
+        FileOutputStream fos = new FileOutputStream(filePath);
+        fos.write(file.getBytes());
+        fos.close();
 
+        return filePath.replace(rootPath, host);
+    }
 
+    protected void download(String filePath) throws Exception{
+        OutputStream os = response.getOutputStream();
+        response.reset();
+        String fileName = FileUtil.getFileName(filePath);
+        response.setHeader("Content-Disposition", "attachment; filename=" + URLEncoder.encode(fileName, "UTF-8"));
+        response.setContentType("application/octet-stream; charset=utf-8");
+        os.write(FileUtil.readFileByte(filePath));
+        os.flush();
+    }
 }

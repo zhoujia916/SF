@@ -2,6 +2,7 @@ package puzzle.sf.controller.admin;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import org.apache.commons.lang.math.RandomUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,19 +18,13 @@ import puzzle.sf.entity.SfArticle;
 import puzzle.sf.entity.SystemMenuAction;
 import puzzle.sf.entity.SystemUser;
 import puzzle.sf.service.ISfArticleService;
-import puzzle.sf.utils.ConvertUtil;
-import puzzle.sf.utils.Page;
-import puzzle.sf.utils.Result;
-import puzzle.sf.utils.StringUtil;
+import puzzle.sf.utils.*;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-@Controller(value = "sfArticleController")
+@Controller(value = "adminSfArticleController")
 @RequestMapping(value = "/admin/sfarticle")
 public class SfArticleController extends ModuleController{
 
@@ -87,17 +82,17 @@ public class SfArticleController extends ModuleController{
                 if(StringUtil.isNotNullOrEmpty(article.getTitle())){
                     map.put("title",article.getTitle());
                 }
-                if(StringUtil.isNotNullOrEmpty(article.getUserName())){
-                    map.put("userName",article.getUserName());
+                if(StringUtil.isNotNullOrEmpty(article.getAuth())){
+                    map.put("auth",article.getAuth());
                 }
                 if(article.getStatus() != null && article.getStatus() > 0){
                     map.put("status",article.getStatus());
                 }
                 if(StringUtil.isNotNullOrEmpty(article.getStartDate())){
-                    map.put("startDate", ConvertUtil.toLong(ConvertUtil.toDateTime(article.getStartDate())));
+                    map.put("startDate", ConvertUtil.toLong(ConvertUtil.toDate(article.getStartDate())));
                 }
                 if(StringUtil.isNotNullOrEmpty(article.getEndDate())){
-                    map.put("endDate", ConvertUtil.toLong(ConvertUtil.toDateTime(article.getEndDate())));
+                    map.put("endDate", ConvertUtil.toLong(ConvertUtil.toDate(article.getEndDate())));
                 }
             }
             List<SfArticle> list=sfArticleService.queryList(map,page);
@@ -126,14 +121,11 @@ public class SfArticleController extends ModuleController{
         Result result=new Result();
         try{
             if(action.equalsIgnoreCase(Constants.PageHelper.PAGE_ACTION_CREATE)){
-                int userId = 0;
-                if(getCurrentUser() != null){
-                    userId = ((SystemUser)getCurrentUser()).getUserId();
-                }
-                article.setAddUserId(userId);
+                article.setAddUserId(((SystemUser)getCurrentUser()).getUserId());
                 article.setStatus(2);
                 article.setAddTime(ConvertUtil.toLong(new Date()));
                 String cover = saveCover();
+
                 if(StringUtil.isNotNullOrEmpty(cover)){
                     article.setCover(cover);
                 }
@@ -149,12 +141,17 @@ public class SfArticleController extends ModuleController{
                 if(StringUtil.isNotNullOrEmpty(cover)){
                     article.setCover(cover);
                 }
+                else{
+                    if(StringUtil.isNullOrEmpty(article.getCover())){
+                        article.setCover("");
+                    }
+                }
                 if(!sfArticleService.update(article)){
                     result.setCode(1);
                     result.setMsg("修改文章信息时出错");
                 }else{
                     //添加日志
-                    insertLog(Constants.PageHelper.PAGE_ACTION_UPDATE,"修改特定的文章信息");
+                    insertLog(Constants.PageHelper.PAGE_ACTION_UPDATE, "修改特定的文章信息");
                 }
             }else if(action.equalsIgnoreCase(Constants.PageHelper.PAGE_ACTION_DELETE)){
                 //删除
@@ -190,28 +187,18 @@ public class SfArticleController extends ModuleController{
             if (multipartResolver.isMultipart(request)) {
                 MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
                 MultipartFile cover = multiRequest.getFile("file");
+                if(cover != null) {
+                    String saveName = session.getServletContext().getRealPath("") + "/upload/article/";
 
-                String typePath = "article";
-                String savePath = session.getServletContext().getRealPath("") + "/upload/" + typePath + "/";
-                String relativeUrl = request.getContextPath() + "/upload/" + typePath + "/";
-                String saveName = PathFormatter.format(cover.getOriginalFilename(), "{yy}{MM}{dd}/{hh}{mm}{rand:6}");
-                String dirName = savePath + saveName.substring(0, saveName.lastIndexOf('/'));
-                File dir = new File(dirName);
-                if (!dir.exists()) {
-                    dir.mkdirs();
+                    int min = (int)Math.pow(10, 5);
+                    int max = (int)Math.pow(10, 6);
+                    Random random = new Random(new Date().getTime());
+                    int number = random.nextInt(max - min + 1) + min;
+
+                    saveName += ConvertUtil.toString(new Date(), "yyMMdd/HHmmss") + number + "." + FileUtil.getFileExt(cover.getOriginalFilename());
+
+                    return upload(cover, saveName);
                 }
-
-                FileOutputStream fos = new FileOutputStream(savePath + saveName);
-                fos.write(cover.getBytes());
-                fos.close();
-
-                String url = request.getScheme() + "://" + request.getServerName();
-                if (request.getServerPort() != 80) {
-                    url += ":" + request.getServerPort();
-                }
-                url += relativeUrl + saveName;
-
-                return url;
             }
         }
         catch (Exception e){

@@ -140,6 +140,9 @@ public class Constants {
         public static final String ADMIN_SF_ARTICLE = "admin/sf/article/index";
 
         public static final String ADMIN_SF_ARTICLE_SHOW = "admin/sf/article/show";
+
+
+        public static final String WX_SF_ARTICLE = "wx/article";
     }
 
     public class PageHelper{

@@ -82,7 +82,7 @@
                 <if test="catId != null">
                     cat_id = #{catId},
                 </if>
-                <if test="cover != null and cover != ''">
+                <if test="cover != null">
                     cover = #{cover},
                 </if>
                 <if test="content != null">
@@ -183,11 +183,11 @@
         on sa.add_user_id=su.user_id
         <where>
 	        <trim prefixOverrides="and | or">
-	        	<if test="title != null">
+	        	<if test="title != null and title !=''">
 	                and sa.title like concat('%',#{title},'%')
 	            </if>
-                <if test="userName !=null">
-                    and su.user_name = #{userName}
+                <if test="auth !=null and auth !=''">
+                    and sa.auth like concat('%',#{auth},'%')
                 </if>
                 <if test="status != null">
                     and sa.status = ${status}
@@ -200,6 +200,7 @@
                 </if>
 	        </trim>
         </where>
+        order by article_id desc;
     </select>
 
 </mapper>
