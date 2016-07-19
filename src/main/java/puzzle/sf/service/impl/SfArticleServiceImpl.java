@@ -22,7 +22,10 @@ public class SfArticleServiceImpl implements ISfArticleService {
 	public boolean insert(SfArticle entity){
         try {
             if(sqlMapper.insert("SfArticleMapper.insert", entity)){
-                entity.setArticleUrl("http://192.168.1.254:9080/admin/article/view/"+entity.getArticleId());
+                SfArticle article=new SfArticle();
+                article.setArticleId(entity.getArticleId());
+                article.setArticleUrl("http://192.168.1.254:9080/admin/sfarticle/view/"+entity.getArticleId());
+                update(article);
                 return true;
             }
         }catch (Exception e){
