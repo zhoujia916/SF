@@ -1,6 +1,5 @@
 (function(){
     function wxShare(){
-
     }
     wxShare.prototype = {
         share: function(title, desc, link, imgUrl){
@@ -78,4 +77,5 @@
             });
         }
     }
+    window.wsShare = wxShare;
 })();

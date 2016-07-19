@@ -36,8 +36,69 @@
             </div>
         </div>
     </div>
+    <script type="text/javascript" src="//res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
     <script type="text/javascript" src="//cdn.bootcss.com/zepto/1.1.6/zepto.js"></script>
     <script type="text/javascript">
+        wx.config({
+            debug: false,
+            appId: '{{$wxsign.appid}}',
+            timestamp: '{{$wxsign.timestamp}}',
+            nonceStr: '{{$wxsign.nonceStr}}',
+            signature: '{{$wxsign.signature}}',
+            jsApiList: [
+                'checkJsApi',
+                'onMenuShareTimeline',
+                'onMenuShareAppMessage',
+                'onMenuShareQQ',
+                'onMenuShareWeibo'
+            ]
+        });
+        wx.ready(function () {
+            wx.checkJsApi({
+                jsApiList: [
+                    'checkJsApi',
+                    'onMenuShareTimeline',
+                    'onMenuShareAppMessage',
+                    'onMenuShareQQ',
+                    'onMenuShareWeibo'
+                ]
+            });
+            wx.onMenuShareAppMessage({
+                title: '{{if $article.title2}}{{$article.title2}}{{else}}{{$article.title}}{{/if}}',
+                desc: '{{$article.abstracts}}',
+                link: '{{$wxsign.url}}',
+                imgUrl: '{{if $article.cover}}{{$article.cover}}{{/if}}',
+                trigger: function (res) {
+                    // 不要尝试在trigger中使用ajax异步请求修改本次分享的内容，因为客户端分享操作是一个同步操作，这时候使用ajax的回包会还没有返回
+                },
+                success: function (res) {
+
+                },
+                cancel: function (res) {
+
+                },
+                fail: function (res) {
+
+                }
+            });
+            wx.onMenuShareTimeline({
+                title: '{{if $article.title2}}{{$article.title2}}{{else}}{{$article.title}}{{/if}}',
+                link: '{{$wxsign.url}}',
+                imgUrl: '{{if $article.cover}}{{$article.cover}}{{/if}}',
+                trigger: function (res) {
+
+                },
+                success: function (res) {
+
+                },
+                cancel: function (res) {
+
+                },
+                fail: function (res) {
+
+                }
+            });
+        });
         $(function(){
             $("#subscribe").on("click", function(){
                 $("div.dialog").show();

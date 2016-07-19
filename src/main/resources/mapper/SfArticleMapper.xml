@@ -22,7 +22,7 @@
     </resultMap>
 
     <sql id="allColumn">
-    	article_id, title, title2, auth, cat_id, cover, content, article_url, source_url, abstracts, add_time, add_user_id, check_time, status, check_user_id, sort_order
+    	article_id, title, title2, auth, cat_id, cover, content, article_url, source_url, abstracts, add_time, add_user_id, check_time, status, check_user_id, abstracts, sort_order
     </sql>
 
     <insert id="insert" parameterType="SfArticle" useGeneratedKeys="true" keyProperty="articleId">

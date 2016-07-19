@@ -34,11 +34,11 @@ public class InitConfig implements InitializingBean {
         return configs;
     }
 
-    public Object getProperty(String name){
+    public String getProperty(String name){
         return properties.get(name);
     }
 
-    public Object getConfig(String name){
+    public String getConfig(String name){
         return configs.get(name);
     }
 

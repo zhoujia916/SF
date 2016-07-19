@@ -10,7 +10,7 @@ ul, li, ol{
 body {
     line-height: 1.6;
     font-size: 16px;
-    background-color: #EEE;
+    background-color: #FEFEFE;
     -webkit-touch-callout: none;
     font-family: Helvetica,"STHeiti STXihei","Microsoft JhengHei","Microsoft YaHei",Tohoma,Arial;
 }
@@ -69,12 +69,16 @@ body {
     max-width: 10em;
     color: #07D;
 }
+/*
 .content{
     padding:20px 2px;
-    background-color: #EEE;
+    background-color: #FEFEFE;
     min-height: 500px;;
 }
-
+.content *, .content section, .content div, .content span, .content p, .content table, .content td, .content ul, .content li, .content dd, .content dt{
+    background-color: #FEFEFE !important;
+}
+*/
 .dialog{
     position: absolute;
     top: 0;
